@@ -26,3 +26,23 @@ class LoginForm:
         if not password:
             self.errors.append("Password is required")
             return False 
+        
+        if len(password) < self.MIN_PASSWORD_LENGTH:
+            self.errors.append(
+                f"Password must be at least {self.MIN_PASSWORD_LENGTH} characters long."
+            )
+            return False
+        
+        if len(password) > self.MAX_PASSWORD_LENGTH:
+            self.errors.append(
+                f"Password must be no more than {self.MAX_PASSWORD_LENGTH} characters long."
+            )
+            return False
+        
+        #Check for at least one uppercase letter
+        if not re.search(r'[A-Z]', password):
+            self.errors.append("Password must container at least one uppercase letter.")
+            return False
+        
+        return True
+            
