@@ -10,11 +10,36 @@ class TestEmailValidation:
     @pytest.fixture
     def form(self):
         return LoginForm()
+    
+    
+    @pytest.mark.parametrize(
+        "email",
+        [
+            "user@example.com",
+            "2342Sharo@example.com",
+            "user@crypto.co",
+            "user@domain.ai",
+            "user@test.org"
+        ]
+    ) 
+    
 
     #positive test case
-    def test_valid_email(self, form):
-           assert LoginForm.validate_email(form, "user@example.com") == True 
+    def test_valid_email(self, form, email):
+           assert LoginForm.validate_email(form, email) is True 
+           
+           
+    @pytest.mark.parametrize(
+        "email",
+        [
+            "user@.com",
+            "$$$$.com",
+            "user@com",
+            "user@domain.c",
+            "user@domain..@@@.com"
+        ]
+    )       
            
     #negative test case
-    def test_invalid_email(self, form):
-           assert LoginForm.validate_email(form, "userexample.com") == False
+    def test_invalid_email(self, form, email):
+           assert LoginForm.validate_email(form, email) is False
