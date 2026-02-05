@@ -180,12 +180,18 @@
 
         }
 
+        function toggleTodo(id){
+            //mapping or find function in the todos array to locate item by id
+            const todo = todos.find(t => t.id === id);
+            renderTodos();
+        }
+
         function renderTodos(){
             const list = document.getelementById('todo-list');
             list.innerHTML = '';
 
             todos.forEach(todo => {
-
+                
 
             }
          )
