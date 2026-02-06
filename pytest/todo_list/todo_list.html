@@ -183,15 +183,60 @@
         function toggleTodo(id){
             //mapping or find function in the todos array to locate item by id
             const todo = todos.find(t => t.id === id);
+            todo.completed = !todo.completed;
             renderTodos();
         }
 
+        function deleteTodo(id){
+            //filter method to remove the todo item with the specified id
+            todos = todos.filter(t => t.id !== id);
+            renderTodos();
+        }
+
+        function clearCompleted(){
+            //filter method, we call length on completed items
+            const completedCount = todos.filter(t => t.completed).length;
+            //updating the todos array to include only uncompleted items
+            todos = todos.filter(t => !t.completed);
+            //checking to see if any tasks were cleared
+            if(completedCount > 0){
+                showMessage(`${completedCount} completed task(s) cleared.`);
+            }
+            renderTodos();
+        }
+            
+        
+
         function renderTodos(){
+            //grab list element
             const list = document.getelementById('todo-list');
+            //clear existing list items
             list.innerHTML = '';
 
+            //performing a function on each todo item
             todos.forEach(todo => {
-                
+                //creates list item element
+                const li = document.createElement('li');
+                //ternary operator to set the class name based on completion status
+                li.className = todo.completed ? 'completed' : '';
+                //set the li attribute to data-testid and assign it a value of 'todo-item'
+                li.setAttribute('data-testid', 'todo-item');
+
+                li.innerHTML = `
+                    <input 
+                        type="checkbox"
+                        class="checkbox"
+                        ${todo.completed ? 'checked' : ''}
+                        onchange="toggleTodo(${todo.id})"
+                        data-testid="todo-checkbox"
+                        >
+                    <span class="task-text">${todo.text}</span>
+                    <button
+                        class="delete-btn"
+                        onclick="deleteTodo(${todo.id})"
+                        data-testid="delete-button"
+                        >Delete</button>
+                `;
 
             }
          )
