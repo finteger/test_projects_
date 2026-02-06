@@ -139,7 +139,7 @@
        </div>
 
 
-       <div class="message"></div>
+       <div id="message"></div>
        <ul data-testid="todo-list"></ul>
 
 
@@ -209,7 +209,7 @@
 
         function renderTodos(){
             //grab list element
-            const list = document.getelementById('todo-list');
+            const list = document.getElementById('todo-list');
             //clear existing list items
             list.innerHTML = '';
 
@@ -237,11 +237,26 @@
                         data-testid="delete-button"
                         >Delete</button>
                 `;
+                list.appendChild(li);
 
-            }
-         )
+            });
+            updateCounter();
+       }
 
-     }
+       function updateCounter(){
+            document.getElementById('totalCount').textContent = todos.length;
+            document.getElementById('completedCount').textContent = todos.filter(t => t.completed).length;
+        }
+
+        function showMessage(text){
+                const message = document.getElementById('message');
+                message.textContent = text;
+                message.className = 'success';
+                setTimeout(() =>{
+                    message.style.display = 'none';
+                    }, 3000
+                );
+        }
     </script>
 </body>
 </html>
