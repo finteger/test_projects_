@@ -140,7 +140,8 @@
 
 
        <div id="message"></div>
-       <ul data-testid="todo-list"></ul>
+       <ul id="todo-list" data-testid="todo-list"></ul>
+
 
 
        <button onclick="clearCompleted()" class="clear-btn" data-testid="clear-button">Clear Completed</button>
@@ -160,6 +161,8 @@
             const input = document.getElementById('todoInput');
             const task = input.value.trim();
 
+            //console.log(task)
+
             //null-check
             if(task === '') {
                 alert('Task cannot be empty!');
@@ -172,6 +175,8 @@
                 text: task,
                 completed: false
             });
+
+            //console.log(todos)
 
             //clear the input field
             input.value = '';
