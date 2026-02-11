@@ -32,25 +32,29 @@ def stop_server():
         server.shutdown()
         print('Server is shutdown')
         
+
+def test_add_todo_item():
+    print("\n===Test: Add To-Do Item===")
+     
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True, slow_mo=500)
+        page = browser.new_page()
         
+        #open the app
+        page.goto("http://localhost:8000")
         
- 
-  
-  
-  
-  
-  
+        #type in the task
+        print("Adding new task...")
+        page.get_by_test_id('todo-input').fill("Buy groceries")
         
-        
-        
-        
-        
-        
+        time.sleep(1)
+        browser.close()
         
         
 #run our suite of tests 
 def run_all_tests():
     try:
+    test_add_todo_item()    
     #to-do implement tests
     except AssertionError as e:
         print(f'Test failed: {e}')
