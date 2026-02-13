@@ -4,6 +4,7 @@ import http.server
 import socketserver
 import threading
 import os 
+import pytest
 
 #global server instance
 server = None
@@ -12,6 +13,10 @@ server_thread = None
 def start_server(port=8000):
     #start a HTTP server in a background thread
     global server, server_thread
+    
+    #change the working directory of the HTML file
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(script_dir)
     
     #create server
     handler = http.server.SimpleHTTPRequestHandler
@@ -32,6 +37,13 @@ def stop_server():
         server.shutdown()
         print('Server is shutdown')
         
+        
+@pytest.fixture(scope='session', autouse=True)      
+def setup_server():
+    start_server(port=8000)
+    yield
+    stop_server()
+    
 
 def test_add_todo_item(page: Page):
     print('\n=== Running test: Add To-Do Item ===')
@@ -53,30 +65,11 @@ def test_add_todo_item(page: Page):
     assert todo_items.count() == 1, "Should have 1 to-do item after adding"
     
     #verify the counter updates
-    total_count = page.locator('#total-count').text_content()
-    assert total_count == 1, f'Total count should be 1 after adding, but got {total_count}' 
+    total_count = page.locator('#totalCount').text_content()
+    assert total_count == '1', f'Total count should be 1 after adding, but got {total_count}' 
     
     print("Task added succesfully!")
     
     page.wait_for_timeout(500)
     
         
-        
-#run our suite of tests 
-def run_all_tests():
-    try:
-        test_add_todo_item()    
-        #to-do implement tests
-    except AssertionError as e:
-        print(f'Test failed: {e}')
-    except Exception as e:
-        print(f'An error occurred: {e}')    
-        
- 
-#runs the document as the main script     
-if __name__ == "__main__":
-    start_server(port=8000)
-    try:
-        run_all_tests()
-    finally:
-        stop_server()
