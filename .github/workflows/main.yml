@@ -15,15 +15,15 @@ jobs:
         with:
           python-version: "3.11"
 
-          
-      - name:  install dependencies
-        run:
+      - name: install dependencies
+        run: |
           pip install --upgrade pip
           pip install pytest pytest-playwright
-          playwright install chromium 
-          
+          playwright install chromium
+
       - name: Run unit tests
-        run: pytest --ignore=todo_list/ -v 
+        run: pytest --ignore=todo_list/ -v
+
       - name: Run e2e tests
         run: pytest todo_list/test_todo_list.py -v
 
