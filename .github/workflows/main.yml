@@ -22,9 +22,9 @@ jobs:
           playwright install chromium
 
       - name: Run unit tests
-        run: pytest --ignore=todo_list/ -v
+        run: pytest pytest/ --ignore=pytest/todo_list -v
 
       - name: Run e2e tests
-        run: pytest todo_list/test_todo_list.py -v
+        run: pytest pytest/todo_list/test_todo_list.py -v
 
   
