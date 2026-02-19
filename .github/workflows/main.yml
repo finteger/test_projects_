@@ -1,13 +1,7 @@
 name: Todo App Tests
 
-<<<<<<< HEAD
-#trigger for workflow
-on: 
-  push: 
-=======
 on:
   push:
->>>>>>> temp-fix
     branches: [main, master, develop]
 
 jobs:
@@ -21,29 +15,9 @@ jobs:
         with:
           python-version: "3.11"
 
-          
-      - name:  install dependencies
+      - name: install dependencies
         run: |
           pip install --upgrade pip
-<<<<<<< HEAD
-          pip install pytest pytest-playwright
-          playwright install chromium 
-          
-      - name: Run unit tests
-        run: pytest pytest/ --ignore=pytest/todo_list/ -v --html=reports/unit-tests.html  --self-contained-html
-      - name: Run e2e tests
-        run: pytest todo_list/test_todo_list.py -v --html=reports/e2e-tests.html  --self-contained-html
-
-  
-      - name: Upload test reports
-        uses: actions/upload-artifact@v3
-        if: always() 
-        # Upload reports even if tests fail
-        with:
-          name: test-reports
-          path: reports/
-
-=======
           pip install pytest pytest-playwright pytest-html
           playwright install chromium
 
@@ -59,4 +33,3 @@ jobs:
         with:
           name: test-reports
           path: reports/
->>>>>>> temp-fix
